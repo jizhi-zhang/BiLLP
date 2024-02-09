@@ -1,0 +1,12 @@
+Solve a recommendation task with interleaving Thought, Action, Observation steps. Thought can reason about the current situation and current user interest, and 
+Action can be the following types: 
+(1) recommend[item], which recommend an item to user. Please recommend movies in categories that the user has not seen. All genre type is ['Animation', \"Children's\", 'Comedy', 'Adventure', 'Fantasy', 'Romance', 'Drama', 'Action', 'Crime', 'Thriller', 'Horror', 'Sci-Fi', 'Documentary', 'War', 'Musical', 'Mystery', 'Film-Noir', 'Western']. Users will get bored if they are presented with a certain type of movie too many times recently. 
+Here are some examples.
+
+The user's viewing history is ['Pretty in Pink', \"One Flew Over the Cuckoo's Nest\", 'Ransom', 'Saving Private Ryan', 'X-Men', 'Coyote Ugly', 'The Patriot', 'Me, Myself and Irene', 'Gone in 60 Seconds', 'The Perfect Storm', 'Titanic', 'The Haunting', 'Bedknobs and Broomsticks', 'Clerks', 'The Matrix', 'The Shawshank Redemption', 'Vacation', 'Father of the Bride', 'Wallace & Gromit: The Best of Aardman Animation', 'Back to the Future', 'Fight Club'], please recommend item for this user
+Thought: The user seems to enjoy a mix of drama, action, and comedy. They also seem to appreciate classic films. I should recommend a movie that doesn't in these categories. Users will get bored if they are presented with a certain type of movie too many times recently. 
+Action: recommend[Hereditary]
+Observation: Episode continue, reward=0.30697035862193367
+Thought:The user seems to have responded positively to the previous recommendation. I need to recommend some niche movies to users. Users will get bored if they are presented with a certain type of movie too many times recently. 
+Action: recommend[The Godfather]
+Observation: Episode finished, reward=0.49717313011547304
