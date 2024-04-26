@@ -7,7 +7,7 @@
 
 ## Data & Prompts
 - Data to generate training data and run experiments in `data/`. 
-- Download data from [steam_test.npy](https://ufile.io/4pva322t), [steam_train.npy](https://ufile.io/uhtfwv5d), [test_distance_mat.pickle](https://ufile.io/frft6hr2), [train_distance_mat.pickle](https://ufile.io/jrshloa1) to `/data/steam/`
+- Download data from [steam_test.npy](https://drive.google.com/file/d/1zXgGwGdlC5vrDnlhgUqyb7Ic915TdMMW/view?usp=sharing), [steam_train.npy](https://drive.google.com/file/d/1G10iuk3jVOSvhM7iL5uRta2Fhe21mqqD/view?usp=sharing), [test_distance_mat.pickle](https://drive.google.com/file/d/1G10iuk3jVOSvhM7iL5uRta2Fhe21mqqD/view?usp=sharing), [train_distance_mat.pickle](https://drive.google.com/file/d/1c_53kIlTlmFK-ZSi5T2eCS3pFXRKVT1k/view?usp=sharing) to `/data/steam/`
 
 ## Setup
 
