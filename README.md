@@ -32,7 +32,8 @@ pip install -r requirements.txt
 
 ## Run Demo
 
-#### Data Generation
+#### Grounding Embedding Generation
+Generate embedding via `/env/steam/llama_generate_embedding.ipynb` 
 
 Example:
 
