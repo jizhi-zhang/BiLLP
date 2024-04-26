@@ -160,7 +160,7 @@ Revision:
 
 CRITIC_INSTRCUT = '''
 You are an expert in recommendation systems. You need to determine whether the recommended list the recommendation list can satisfy the user.
-Your answer should range from -5 to 5. (The higher the score, the higher the quality of the recommendation sequence, the more satisfying the user's interest, and the less annoying the user.)
+Your answer must be a integer range from -5 to 5. (The higher the score, the higher the quality of the recommendation sequence, the more satisfying the user's interest, and the less annoying the user.)
 
 Here are some examples:
 Actor: The user's viewing history is ['Blockland', 'Shovel Knight: Treasure Trove', 'PlanetSide 2', 'Eldritch', \"Shantae: Risky's Revenge - Director's Cut\"]\n

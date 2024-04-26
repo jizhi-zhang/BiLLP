@@ -194,7 +194,7 @@ def format_Q_record(argument_list, Max=10):
     query = 'The user viewing history is [' + result + ']'
     return query
 
-def calculate_q_value(reward_list, gamma=0.3):
+def calculate_q_value(reward_list, gamma=0.5):
     q_value_list = [0] * len(reward_list)
     for i in range(len(reward_list)-1, -1, -1):
         if i == len(reward_list)-1:

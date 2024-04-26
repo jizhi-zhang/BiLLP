@@ -169,22 +169,19 @@ class ReactA2CAgent(ReactReflectAgent):
         for i, id in enumerate(idxs):
             self.scratchpad[id] += ' ' + prompts[i]
             
-            
+        if self.tool_use ==True:
         # print(self.scratchpad.split('\n')[-1])
-        random_type = []
-        q_prompt = {}
-        for i, id in enumerate(idxs):
-            hist = self.env.get_hist_list(self.argument_lists[id])
-            random_type.append(random.sample([x for x in self.GENRE if x not in hist], 2))
-            # self.scratchpad[id] += f'(Do not recommend a certain type of movie over twice recently, such as these {hist} type. Please recommend {random_type[i][0]} movies to help users explore their interests)'
-            # self.scratchpad[id] += f'Ignore the user interests, Please recommend {random_type[i][0]} and {random_type[i][1]} games to help users explore their interests'
-            # self.scratchpad[id] += f'(Please recommend {random_type[i][0]} books to help users explore their interests)'
-            self.scratchpad[id] += f'(Please recommend {random_type[i][0]} and {random_type[i][1]} items to help users explore their interests)'
-        
-            if self.faiss_actor_memory!=None:
-                q_prompt[id] = self._get_actor_memory(self.task.get_history_actions(id), self.argument_lists[id])
-                self.scratchpad[id] += q_prompt[id]
-                print(q_prompt[id])
+            random_type = []
+            q_prompt = {}
+            for i, id in enumerate(idxs):
+                hist = self.env.get_hist_list(self.argument_lists[id])
+                random_type.append(random.sample([x for x in self.GENRE if x not in hist], 2))
+                self.scratchpad[id] += f'(Please recommend {random_type[i][0]} and {random_type[i][1]} items to help users explore their interests)'
+            
+                if self.faiss_actor_memory!=None:
+                    q_prompt[id] = self._get_actor_memory(self.task.get_history_actions(id), self.argument_lists[id])
+                    self.scratchpad[id] += q_prompt[id]
+                    print(q_prompt[id])
                 
         # Act
         for id in idxs:
@@ -239,8 +236,8 @@ class ReactA2CAgent(ReactReflectAgent):
         
         # update actor memory
         value = self.prompt_critic_llm(idxs)
-        self._update_actor_memory(value, arguments, idxs)
-        self._update_critic_memory(value, idxs)
+        self._update_actor_memory(reward, value, arguments, idxs)
+        self._update_critic_memory(reward, value, idxs)
             
         
         # print(self.scratchpad.split('\n')[-1])
@@ -293,23 +290,27 @@ class ReactA2CAgent(ReactReflectAgent):
         self.faiss_actor_memory = FAISS.from_texts(self.actor_memory.keys(), embeddings)
         self.faiss_critic_memory = FAISS.from_texts(self.critic_memory.keys(), embeddings)
     
-    def _update_actor_memory(self, value, arguments, idxs):
+    def _update_actor_memory(self, reward, value, arguments, idxs, gamma=0.5):
         for i, id in enumerate(idxs):
+            try:
+                v_i = float(value[i])
+            except:
+                v_i = 0
             temp_list = self.task.get_history_actions(id)+self.argument_lists[id][:-1]
             query = format_query(temp_list)
             if query not in self.actor_memory:
                 self.actor_memory[query] = {}
-            if float(value[i]) - self.value_lists[id][-1] >= 0:
+            if reward + gamma*v_i - self.value_lists[id][-1] >= 0:
                 self.actor_memory[query][arguments[i]] = 1
             else:
                 self.actor_memory[query][arguments[i]] = -1
             self.value_lists[id].append(float(value[i]))
     
-    def _update_critic_memory(self, value, idxs):
+    def _update_critic_memory(self, reward, value, idxs, gamma=0.5):
         for i, id in enumerate(idxs):
             temp_list = self.task.get_history_actions(id)+self.argument_lists[id][:-1]
             query = format_query(temp_list)
-            self.critic_memory[query] = value[i]
+            self.critic_memory[query] = reward + gamma * value[i]
     
     def _update_reflections_lib(self):
         embeddings = OpenAIEmbeddings()
@@ -391,7 +392,7 @@ def format_query(argument_list, Max=10):
     query = 'The user viewing history is [' + result + ']'
     return query
 
-def calculate_q_value(reward_list, gamma=0.3):
+def calculate_q_value(reward_list, gamma=0.5):
     q_value_list = [0] * len(reward_list)
     for i in range(len(reward_list)-1, -1, -1):
         if i == len(reward_list)-1:

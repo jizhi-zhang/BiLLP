@@ -66,6 +66,7 @@ class ReactAgent:
         self.env = rec_env
         self.llm = react_llm
         self.args = args
+        self.tool_use = True
         #self.enc = tiktoken.encoding_for_model("text-davinci-003")
 
         self.scratchpad: dict = defaultdict(str)
@@ -92,20 +93,18 @@ class ReactAgent:
             
             
         # print(self.scratchpad.split('\n')[-1])
-        random_type = []
-        q_prompt = {}
-        for i, id in enumerate(idxs):
-            hist = self.env.get_hist_list(self.argument_lists[id])
-            random_type.append(random.sample([x for x in self.GENRE if x not in hist], 2))
-            # self.scratchpad[id] += f'(Do not recommend a certain type of movie over twice recently, such as these {hist} type. Please recommend {random_type[i][0]} movies to help users explore their interests)'
-            # self.scratchpad[id] += f'Ignore the user interests, Please recommend {random_type[i][0]} and {random_type[i][1]} games to help users explore their interests'
-            # self.scratchpad[id] += f'(Please recommend {random_type[i][0]} books to help users explore their interests)'
-            self.scratchpad[id] += f'(Please recommend {random_type[i][0]} and {random_type[i][1]} items to help users explore their interests)'
-        
-            if self.args.agent_name == 'agent_retrival' and self.faiss_Q_table!=None:
-                q_prompt[id] = self._get_Q_record(self.task.get_history_actions(id), self.argument_lists[id])
-                self.scratchpad[id] += q_prompt[id]
-                print(q_prompt[id])
+        if self.tool_use == True:
+            random_type = []
+            q_prompt = {}
+            for i, id in enumerate(idxs):
+                hist = self.env.get_hist_list(self.argument_lists[id])
+                random_type.append(random.sample([x for x in self.GENRE if x not in hist], 2))
+                self.scratchpad[id] += f'(Please recommend {random_type[i][0]} and {random_type[i][1]} items to help users explore their interests)'
+            
+                if self.args.agent_name == 'agent_retrival' and self.faiss_Q_table!=None:
+                    q_prompt[id] = self._get_Q_record(self.task.get_history_actions(id), self.argument_lists[id])
+                    self.scratchpad[id] += q_prompt[id]
+                    print(q_prompt[id])
                 
         # Act
         for id in idxs:
