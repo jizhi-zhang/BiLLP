@@ -6,8 +6,8 @@
 
 
 ## Data & Prompts
-- Data to generate training data and run experiments in `data/`. 
-- Download data from [steam_test.npy](https://drive.google.com/file/d/1zXgGwGdlC5vrDnlhgUqyb7Ic915TdMMW/view?usp=sharing), [steam_train.npy](https://drive.google.com/file/d/16cAzf9upsDfNu7pCjk5QSpdeQhMLaFwY/view?usp=sharing), [test_distance_mat.pickle](https://drive.google.com/file/d/1G10iuk3jVOSvhM7iL5uRta2Fhe21mqqD/view?usp=sharing), [train_distance_mat.pickle](https://drive.google.com/file/d/1c_53kIlTlmFK-ZSi5T2eCS3pFXRKVT1k/view?usp=sharing) to `/data/steam/`
+- Data to generate training data and run experiments in `env/`. 
+- Download data from [steam_test.npy](https://drive.google.com/file/d/1zXgGwGdlC5vrDnlhgUqyb7Ic915TdMMW/view?usp=sharing), [steam_train.npy](https://drive.google.com/file/d/16cAzf9upsDfNu7pCjk5QSpdeQhMLaFwY/view?usp=sharing), [test_distance_mat.pickle](https://drive.google.com/file/d/1G10iuk3jVOSvhM7iL5uRta2Fhe21mqqD/view?usp=sharing), [train_distance_mat.pickle](https://drive.google.com/file/d/1c_53kIlTlmFK-ZSi5T2eCS3pFXRKVT1k/view?usp=sharing) to `/env/steam/`
 
 ## Setup
 
