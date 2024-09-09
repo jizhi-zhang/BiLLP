@@ -8,6 +8,7 @@
 ## Data & Prompts
 - Data to generate training data and run experiments in `env/`. 
 - Download data from [steam_test.npy](https://drive.google.com/file/d/1zXgGwGdlC5vrDnlhgUqyb7Ic915TdMMW/view?usp=sharing), [steam_train.npy](https://drive.google.com/file/d/16cAzf9upsDfNu7pCjk5QSpdeQhMLaFwY/view?usp=sharing), [train_distance_mat](https://drive.google.com/file/d/1c_53kIlTlmFK-ZSi5T2eCS3pFXRKVT1k/view?usp=drive_link), [test_distance_mat](https://drive.google.com/file/d/1G10iuk3jVOSvhM7iL5uRta2Fhe21mqqD/view?usp=drive_link) to `/env/steam/`
+- Download data from [amazon_test.npy](https://drive.google.com/file/d/1pjPReKxMjyqDbrYcE2KIRCNKkeMofDGr/view?usp=drive_link), [amazon_train.npy](https://drive.google.com/file/d/1EOIwUjrR3QSO34MkNwY_rbt_xZ5hqiL3/view?usp=drive_link), [train_distance_mat](https://drive.google.com/file/d/1StACjrIYOWoEUBC2IDR5gnrg3OVHSRHp/view?usp=drive_link), [test_distance_mat](https://drive.google.com/file/d/1RCT3CYgGbLeytGgrWQ44qZju0Mk2qtW1/view?usp=drive_link) to `/env/amazon/`
 
 ## Setup
 
