@@ -236,8 +236,8 @@ class ReactA2CAgent(ReactReflectAgent):
         
         # update actor memory
         value = self.prompt_critic_llm(idxs)
-        self._update_actor_memory(reward, value, arguments, idxs)
-        self._update_critic_memory(reward, value, idxs)
+        self._update_actor_memory(reward_lists, value, arguments, idxs)
+        self._update_critic_memory(reward_lists, value, idxs)
             
         
         # print(self.scratchpad.split('\n')[-1])
@@ -290,7 +290,7 @@ class ReactA2CAgent(ReactReflectAgent):
         self.faiss_actor_memory = FAISS.from_texts(self.actor_memory.keys(), embeddings)
         self.faiss_critic_memory = FAISS.from_texts(self.critic_memory.keys(), embeddings)
     
-    def _update_actor_memory(self, reward, value, arguments, idxs, gamma=0.5):
+    def _update_actor_memory(self, reward_lists, value, arguments, idxs, gamma=0.5):
         for i, id in enumerate(idxs):
             try:
                 v_i = float(value[i])
@@ -300,17 +300,17 @@ class ReactA2CAgent(ReactReflectAgent):
             query = format_query(temp_list)
             if query not in self.actor_memory:
                 self.actor_memory[query] = {}
-            if reward + gamma*v_i - self.value_lists[id][-1] >= 0:
+            if reward_lists[id][-1] + gamma*v_i - self.value_lists[id][-1] >= 0:
                 self.actor_memory[query][arguments[i]] = 1
             else:
                 self.actor_memory[query][arguments[i]] = -1
             self.value_lists[id].append(float(value[i]))
     
-    def _update_critic_memory(self, reward, value, idxs, gamma=0.5):
+    def _update_critic_memory(self, reward_lists, value, idxs, gamma=0.5):
         for i, id in enumerate(idxs):
             temp_list = self.task.get_history_actions(id)+self.argument_lists[id][:-1]
             query = format_query(temp_list)
-            self.critic_memory[query] = reward + gamma * value[i]
+            self.critic_memory[query] = reward_lists[id][-1] + gamma * value[i]
     
     def _update_reflections_lib(self):
         embeddings = OpenAIEmbeddings()
